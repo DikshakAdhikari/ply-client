@@ -2,6 +2,7 @@ import { BASE_URL } from "@/Secrets";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import Navbar from "./Navbar";
 
 const LoginPage: React.FC = () => {
   const router= useRouter()
@@ -21,7 +22,7 @@ const LoginPage: React.FC = () => {
   const handleSubmit =  async(e: React.FormEvent) => {
     e.preventDefault();
     try{
-      const res= await fetch(`${BASE_URL}/auth/login`, {
+      const res= await fetch(`${BASE_URL}/user/signin`, {
         method:"POST",
         headers:{
           "Content-Type": "application/json",
@@ -34,7 +35,8 @@ const LoginPage: React.FC = () => {
       const data= await res.json();
       localStorage.setItem('token', data.token)
       localStorage.setItem('userId', data.userId)
-      router.push('/my-notes')
+      localStorage.setItem('role', data.role)
+      router.push('/dashboard')
        
     }catch(err){
       console.log(err);
@@ -43,6 +45,8 @@ const LoginPage: React.FC = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
       <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl mb-4 font-semibold text-gray-800 text-center">
@@ -95,6 +99,7 @@ const LoginPage: React.FC = () => {
       </div>
         <div className=" mt-3">Not registered yet? <Link  href={'/'}>SignUp of continue</Link></div>
     </div>
+    </>
   );
 };
 
