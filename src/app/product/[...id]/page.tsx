@@ -54,7 +54,7 @@ interface pageProps{
     }  else {
        
         const obj = {
-            productName, productDescription, price, department, filename: file?.name
+            productName, productDescription, price, department, image:`https://s3.ap-south-1.amazonaws.com/blog.dikshak/uploads/profile-pic/image-${file?.name}` 
         }
         const res= await fetch(`${BASE_URL}/review`, {
             method: "POST",
